@@ -25,76 +25,75 @@ const siths = [
   },
 ];
 
+const rutaImagenes = [
+  "./images/sith0.jpg",
+  "./images/sith1.jpg",
+  "./images/sith2.jpg",
+  "./images/sith3.jpg",
+  "./images/sith4.jpg",
+  "./images/sith5.jpg",
+];
+
 const holocrons = [];
+let i = 0;
+let nombrePersonaje = "";
+let puntaje = 0;
 
-function explicacion() {
-  return alert(
-    "Este es un juego de Star Wars donde le darás nombre a tu personaje y te enfrentarás a poderosos siths del lado oscuro. Por cada enemigo derrotado obtendrás en Holocron Sith al que deberás ponerle un nombre, cada villano tendrá una probabilidad distinta de vencerte según su poder"
+function guardarPersonaje() {
+  sessionStorage.setItem(
+    "nombrePersonaje",
+    document.getElementById("nombrePersonaje").value
   );
+  window.location.href = "./juego.html";
+  mostrarSiguienteBatalla();
 }
 
-function crearPersonaje() {
-  return prompt("Introduce el nombre de tu Jedi");
+function verPuntaje() {
+  var tituloPuntaje = document.createElement("h1");
+  tituloPuntaje.className = "tituloPuntaje";
+  tituloPuntaje.textContent = `Tu puntaje es ${puntaje}`;
+  document.body.appendChild(tituloPuntaje);
 }
 
-function batallas() {
-  const nombrePersonaje = crearPersonaje();
-  for (let i = 0; i < siths.length; i++) {
-    alert(`${nombrePersonaje} se va a enfrentar contra ${siths[i].nombre} `);
+function mostrarSiguienteBatalla() {
+  nombrePersonaje = sessionStorage.getItem("nombrePersonaje");
+  if (i < siths.length) {
+    var tituloBatalla = document.querySelector(".tituloBatalla");
+    tituloBatalla.textContent = `${nombrePersonaje} se va a enfrentar contra ${siths[i].nombre} `;
+    var imagenBatalla = document.querySelector(".imagenBatalla");
+    imagenBatalla.src = rutaImagenes[i];
+  } else {
+    document.body.innerHTML = "";
+    var tituloBatalla = document.createElement("h1");
+    tituloBatalla.className = "tituloBatalla";
+    tituloBatalla.textContent = "¡El juego ha terminado!";
+    document.body.appendChild(tituloBatalla);
+    var botonPuntaje = document.createElement("button");
+    botonPuntaje.className = "botonPuntaje";
+    botonPuntaje.textContent = "Ver mi puntaje";
+    document.body.appendChild(botonPuntaje);
+    botonPuntaje.onclick = verPuntaje;
+  }
+}
+
+function realizarBatalla() {
+  if (i < siths.length) {
     let numeroCombate = Math.random();
     if (numeroCombate >= siths[i].poder) {
-      let nombreHolocron = prompt(
-        "Ganaste la batalla, elige un nombre para tu holoron sith"
-      );
-      holocrons.push({
-        nombre: nombreHolocron,
-        poder: Math.round(Math.random() * 10 + 1),
-      });
+      let textoBatalla = document.querySelector(".textoBatalla");
+      textoBatalla.textContent = `Ganaste la batalla contra ${
+        siths[i].nombre
+      }, sumaste ${i + 5} puntos`;
+      puntaje = puntaje + i + 5;
     } else {
-      alert(`${nombrePersonaje} perdio la batalla contra ${siths[i].nombre}`);
+      let textoBatalla = document.querySelector(".textoBatalla");
+      textoBatalla.textContent = `${nombrePersonaje} perdió la batalla contra ${siths[i].nombre}`;
     }
+
+    i++;
+    mostrarSiguienteBatalla();
   }
 }
 
-function mostrarHolocrons() {
-  const nombresHolocrons = holocrons.map((holocron) => holocron.nombre);
-  const stringNombres = nombresHolocrons.join(", ");
-  alert("Nombres de los Holocrons: " + stringNombres);
-}
-
-function buscarPoderHolocron() {
-  let encontrado = false;
-  while (encontrado == false) {
-    alert(
-      "Puede introducir el nombre de algun holocron para conocer cuan poderoso es del 1 al 10"
-    );
-    const holocronABuscar = prompt(
-      "Ingrese el nombre del holocron que desea buscar"
-    );
-    const holocronEncontrado = holocrons.find(
-      (holocron) => holocron.nombre === holocronABuscar
-    );
-    if (holocronEncontrado) {
-      alert(
-        `Se encontró al Holocron: ${holocronEncontrado.nombre}, Poder: ${holocronEncontrado.poder}`
-      );
-      encontrado = true;
-    } else {
-      alert(`No se encontró ningún Holocron con el nombre: ${holocronABuscar}`);
-    }
-  }
-}
-
-function poderTotalHolocrons() {
-  const poderTotal = holocrons.reduce((acumulador, holocron) => {
-    return acumulador + holocron.poder;
-  }, 0);
-  alert(`El poder total de tus holocrons es ${poderTotal}`);
-}
-
-explicacion();
+mostrarSiguienteBatalla();
 batallas();
-mostrarHolocrons();
-buscarPoderHolocron();
-poderTotalHolocrons();
-alert("Final del juego, gracias por jugar!")
