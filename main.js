@@ -38,6 +38,7 @@ const holocrons = [];
 let i = 0;
 let nombrePersonaje = "";
 let puntaje = 0;
+let botonPuntajeClick = false;
 
 function guardarPersonaje() {
   sessionStorage.setItem(
@@ -49,26 +50,29 @@ function guardarPersonaje() {
 }
 
 function verPuntaje() {
-  var tituloPuntaje = document.createElement("h1");
-  tituloPuntaje.className = "tituloPuntaje";
-  tituloPuntaje.textContent = `Tu puntaje es ${puntaje}`;
-  document.body.appendChild(tituloPuntaje);
+  if (botonPuntajeClick === false) {
+    let tituloPuntaje = document.createElement("h1");
+    tituloPuntaje.className = "tituloPuntaje";
+    tituloPuntaje.textContent = `Tu puntaje es ${puntaje}`;
+    document.body.appendChild(tituloPuntaje);
+    botonPuntajeClick = true;
+  }
 }
 
 function mostrarSiguienteBatalla() {
   nombrePersonaje = sessionStorage.getItem("nombrePersonaje");
   if (i < siths.length) {
-    var tituloBatalla = document.querySelector(".tituloBatalla");
+    let tituloBatalla = document.querySelector(".tituloBatalla");
     tituloBatalla.textContent = `${nombrePersonaje} se va a enfrentar contra ${siths[i].nombre} `;
-    var imagenBatalla = document.querySelector(".imagenBatalla");
+    let imagenBatalla = document.querySelector(".imagenBatalla");
     imagenBatalla.src = rutaImagenes[i];
   } else {
     document.body.innerHTML = "";
-    var tituloBatalla = document.createElement("h1");
+    let tituloBatalla = document.createElement("h1");
     tituloBatalla.className = "tituloBatalla";
     tituloBatalla.textContent = "¡El juego ha terminado!";
     document.body.appendChild(tituloBatalla);
-    var botonPuntaje = document.createElement("button");
+    let botonPuntaje = document.createElement("button");
     botonPuntaje.className = "botonPuntaje";
     botonPuntaje.textContent = "Ver mi puntaje";
     document.body.appendChild(botonPuntaje);
