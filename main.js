@@ -1,5 +1,4 @@
 const starWarsApi = "https://swapi.dev/api/";
-const busqueda = document.querySelector(".inputAPI").value;
 
 function buscar() {
   const busqueda = document.querySelector(".inputAPI").value;
@@ -44,11 +43,11 @@ function buscar() {
       })
       .catch((error) => {
         Swal.fire({
-            title: 'Error!',
-            text: 'Número de personaje inexistente',
-            icon: 'error',
-            confirmButtonText: 'Seguir buscando'
-        })
+          title: "Error!",
+          text: "Número de personaje inexistente",
+          icon: "error",
+          confirmButtonText: "Seguir buscando",
+        });
       });
   }
 }
@@ -70,6 +69,12 @@ function obtenerDatosPeliculas(urls) {
 
   return Promise.all(promesas);
 }
+
+let formulario = document.querySelector(".formulario");
+formulario.addEventListener("submit", function (e) {
+  e.preventDefault();
+  buscar();
+});
 
 let botonBuscar = document.querySelector(".botonBuscar");
 botonBuscar.addEventListener("click", buscar);
