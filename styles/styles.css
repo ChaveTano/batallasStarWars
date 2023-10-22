@@ -8,6 +8,11 @@
   src: url("../fonts/Starjedi.ttf");
 }
 
+@font-face {
+  font-family: "pokemon";
+  src: url("../fonts/Pokemon\ Hollow.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -19,21 +24,78 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  height: 100vh;
 }
 
-h1 {
+a {
+  align-self: flex-end;
+}
+
+.irAlJuego {
+  color: #ffde06;
+  background-color: black;
+  border: 1px solid #ffde06;
+  cursor: pointer;
+  width: 10rem;
+  height: 3rem;
+  font-size: 2rem;
+  margin: 1rem;
+}
+
+.botonBuscar {
+  color: #ffde06;
+  background-color: black;
+  border: 1px solid #ffde06;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-top: -1rem;
+  width: 10rem;
+  height: 3rem;
+  font-size: 2rem;
+}
+
+.tarjeta {
+  background-color: black;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "starwarsRelleno";
+  color: #ffcc03;
+  gap: 2rem;
+}
+
+.tarjeta p {
+  text-align: center;
+}
+
+.tituloJuego {
   font-family: "starWars";
   color: #ffde06;
   font-size: 6rem;
 }
 
-p {
+.tituloIndex {
+  font-family: "pokemon";
+  color: #ffcc03;
+  font-size: 6rem;
+}
+
+.subtituloIndex {
+  font-family: "starWars";
+  color: #ffde06;
+  font-size: 3rem;
+}
+
+.descripcionJuego {
   font-family: "starWarsRelleno";
   color: #ffde06;
   padding: 0 10rem;
   font-size: 3rem;
-  text-align:center;
+  text-align: center;
 }
 
 form {
@@ -44,54 +106,72 @@ form {
 }
 
 input {
-    width: 17rem;
-    height: 2rem;
-    box-shadow: 0px 3px 65px 0px #ffde06;
+  width: 27rem;
+  height: 2rem;
+  box-shadow: 0px 3px 65px 0px #ffde06;
 }
 
 .botonAJugar {
-    color:#ffde06;
-    background-color: black;
-    border: 1px solid #ffde06;
-    cursor: pointer;
-    text-align: center;
-    justify-content: center;
-    margin-bottom: 2rem;
-    margin-top: -1rem;
-    width: 10rem;
-    height: 3rem;
-    font-size: 2rem;
+  color: #ffde06;
+  background-color: black;
+  border: 1px solid #ffde06;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-top: -1rem;
+  width: 10rem;
+  height: 3rem;
+  font-size: 2rem;
+}
+
+.tituloBatalla {
+  color: #ffde06;
+}
+
+.tituloPuntaje {
+  font-family: "starWars";
+  color: #ffde06;
+  font-size: 3rem;
 }
 
 .botonBatalla {
-    color:#ffde06;
-    background-color: black;
-    border: 1px solid #ffde06;
-    cursor: pointer;
-    text-align: center;
-    justify-content: center;
-    width: 10rem;
-    height: 3rem;
-    font-size: 2rem;
+  color: #ffde06;
+  background-color: black;
+  border: 1px solid #ffde06;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
+  width: 10rem;
+  height: 3rem;
+  font-size: 2rem;
 }
 
 .botonPuntaje {
-    color:#ffde06;
-    background-color: black;
-    border: 1px solid #ffde06;
-    cursor: pointer;
-    text-align: center;
-    justify-content: center;
-    width: 10rem;
-    height: 3rem;
-    font-size: 1.5rem;
+  color: #ffde06;
+  background-color: black;
+  border: 1px solid #ffde06;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
+  width: 10rem;
+  height: 3rem;
+  font-size: 1.5rem;
 }
 
 .imagenBatalla {
-    height: 20rem;
-    margin: 2rem;
+  height: 20rem;
+  margin: 2rem;
 }
 
 .textoBatalla {
-  margin-top: 2rem;
+  color: #ffde06;
+  font-size: 2rem;
+  margin: 3rem;
+  font-family: "starwars";
+}
+
+button:hover {
+  color: black;
+  background-color: #ffde06;
 }

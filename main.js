@@ -1,103 +1,75 @@
-const siths = [
-  {
-    nombre: "Padawan Sith 1",
-    poder: 0.4,
-  },
-  {
-    nombre: "Padawan Sith 2",
-    poder: 0.4,
-  },
-  {
-    nombre: "Darth Maul",
-    poder: 0.5,
-  },
-  {
-    nombre: "Conde Dooku",
-    poder: 0.6,
-  },
-  {
-    nombre: "Darth Vader",
-    poder: 0.7,
-  },
-  {
-    nombre: "Darth Sidious",
-    poder: 0.8,
-  },
-];
+const starWarsApi = "https://swapi.dev/api/";
+const busqueda = document.querySelector(".inputAPI").value;
 
-const rutaImagenes = [
-  "./images/sith0.jpg",
-  "./images/sith1.jpg",
-  "./images/sith2.jpg",
-  "./images/sith3.jpg",
-  "./images/sith4.jpg",
-  "./images/sith5.jpg",
-];
+function buscar() {
+  const busqueda = document.querySelector(".inputAPI").value;
 
-const holocrons = [];
-let i = 0;
-let nombrePersonaje = "";
-let puntaje = 0;
-let botonPuntajeClick = false;
+  if (busqueda.trim() !== "") {
+    const usuarioUrl = `${starWarsApi}people/${busqueda}`;
 
-function guardarPersonaje() {
-  sessionStorage.setItem(
-    "nombrePersonaje",
-    document.getElementById("nombrePersonaje").value
+    fetch(usuarioUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        let tarjeta = document.querySelector(".tarjeta");
+        tarjeta.innerHTML = "";
+        const nombre = document.createElement("h1");
+        const altura = document.createElement("h2");
+        const anio = document.createElement("h2");
+        const lugar = document.createElement("h2");
+        const peliculas = document.createElement("p");
+        nombre.textContent = `Nombre: ${data.name}`;
+        altura.textContent = `Altura: ${data.height}`;
+        anio.textContent = `Año de nacimiento: ${data.birth_year}`;
+        obtenerDatosHomeworld(data.homeworld)
+          .then((homeworld) => {
+            lugar.textContent = `Lugar de nacimiento: ${homeworld.name}`;
+          })
+          .catch((error) => {
+            console.error("Error al obtener datos del lugar:", error);
+          });
+        obtenerDatosPeliculas(data.films)
+          .then((peliculasData) => {
+            peliculas.textContent = `Peliculas donde aparece: ${peliculasData.join(
+              ", "
+            )}`;
+          })
+          .catch((error) => {
+            console.error("Error al obtener datos de películas:", error);
+          });
+        tarjeta.appendChild(nombre);
+        tarjeta.appendChild(altura);
+        tarjeta.appendChild(anio);
+        tarjeta.appendChild(lugar);
+        tarjeta.appendChild(peliculas);
+      })
+      .catch((error) => {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Número de personaje inexistente',
+            icon: 'error',
+            confirmButtonText: 'Seguir buscando'
+        })
+      });
+  }
+}
+
+function obtenerDatosHomeworld(url) {
+  return fetch(url)
+    .then((response) => response.json())
+    .then((homeworld) => {
+      return homeworld;
+    });
+}
+
+function obtenerDatosPeliculas(urls) {
+  const promesas = urls.map((url) =>
+    fetch(url)
+      .then((response) => response.json())
+      .then((pelicula) => pelicula.title)
   );
-  window.location.href = "./juego.html";
-  mostrarSiguienteBatalla();
+
+  return Promise.all(promesas);
 }
 
-function verPuntaje() {
-  if (botonPuntajeClick === false) {
-    let tituloPuntaje = document.createElement("h1");
-    tituloPuntaje.className = "tituloPuntaje";
-    tituloPuntaje.textContent = `Tu puntaje es ${puntaje}`;
-    document.body.appendChild(tituloPuntaje);
-    botonPuntajeClick = true;
-  }
-}
-
-function mostrarSiguienteBatalla() {
-  nombrePersonaje = sessionStorage.getItem("nombrePersonaje");
-  if (i < siths.length) {
-    let tituloBatalla = document.querySelector(".tituloBatalla");
-    tituloBatalla.textContent = `${nombrePersonaje} se va a enfrentar contra ${siths[i].nombre} `;
-    let imagenBatalla = document.querySelector(".imagenBatalla");
-    imagenBatalla.src = rutaImagenes[i];
-  } else {
-    document.body.innerHTML = "";
-    let tituloBatalla = document.createElement("h1");
-    tituloBatalla.className = "tituloBatalla";
-    tituloBatalla.textContent = "¡El juego ha terminado!";
-    document.body.appendChild(tituloBatalla);
-    let botonPuntaje = document.createElement("button");
-    botonPuntaje.className = "botonPuntaje";
-    botonPuntaje.textContent = "Ver mi puntaje";
-    document.body.appendChild(botonPuntaje);
-    botonPuntaje.onclick = verPuntaje;
-  }
-}
-
-function realizarBatalla() {
-  if (i < siths.length) {
-    let numeroCombate = Math.random();
-    if (numeroCombate >= siths[i].poder) {
-      let textoBatalla = document.querySelector(".textoBatalla");
-      textoBatalla.textContent = `Ganaste la batalla contra ${
-        siths[i].nombre
-      }, sumaste ${i + 5} puntos`;
-      puntaje = puntaje + i + 5;
-    } else {
-      let textoBatalla = document.querySelector(".textoBatalla");
-      textoBatalla.textContent = `${nombrePersonaje} perdió la batalla contra ${siths[i].nombre}`;
-    }
-
-    i++;
-    mostrarSiguienteBatalla();
-  }
-}
-
-mostrarSiguienteBatalla();
-batallas();
+let botonBuscar = document.querySelector(".botonBuscar");
+botonBuscar.addEventListener("click", buscar);
