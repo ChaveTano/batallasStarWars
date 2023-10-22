@@ -95,5 +95,6 @@ function realizarBatalla() {
 let botonBatalla = document.querySelector(".botonBatalla");
 botonBatalla.addEventListener("click", realizarBatalla)
 
+
 mostrarSiguienteBatalla()
 

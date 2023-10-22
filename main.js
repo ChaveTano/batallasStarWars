@@ -1,4 +1,6 @@
 const starWarsApi = "https://swapi.dev/api/";
+let detenerCarrusel = false;
+let i = 1
 
 function buscar() {
   const busqueda = document.querySelector(".inputAPI").value;
